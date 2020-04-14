@@ -1,0 +1,29 @@
+on:
+  pull_request:
+    types: [closed]
+env:
+  PROJECT_ID: ${{ secrets.IDE_PROJECT_ID }}
+  REGION: ${{ secrets.REGION }}
+  SA_KEY: ${{ secrets.IDE_SA_KEY }}
+  BUCKET: ${{ secrets.IDE_BUCKET }}
+
+jobs:
+  delete_gcp_env_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Delete dev ide in GCP
+        uses: ./.github/action
+        id: dev-ide
+        with:
+          SA_KEY: ${{ env.SA_KEY }}
+          PROJECT: ${{ env.PROJECT_ID }}
+          REGION: ${{ env.REGION }}
+          BUCKET: ${{ env.BUCKET }}
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PLAYBOOK: /app/delete-instance.yaml
+          # GITHUB_ACTOR set as environment variable
+          # GITHUB_REPOSITORY set as environment variable

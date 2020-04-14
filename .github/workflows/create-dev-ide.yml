@@ -1,0 +1,16 @@
+on:
+  project_column:
+    action: moved
+
+jobs:
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue Branch
+        uses: jilgue/create-issue-branch@develop
+        id: create_branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create dev ide in GCP
+        run: echo ${{ github.event.project_column.project_column.name }}
