@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create dev ide in GCP
-        run: echo ${{ github.event.project_column.project_column.name }}
+        run: echo "${{ github.event.project_column.project_column.name }}"
